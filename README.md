@@ -8,14 +8,14 @@ When dealing with a state of type `State`, start by defining a new selector `$`
 ```ts
 import { makeSelector } from 'selector'
 
-const $ = makeSelector<A>()
+const $ = makeSelector<State>()
 ```
 
 Instead of using lambda function, you can substitute them for `$`
 ```ts
 import { makeSelector } from 'selector'
 
-const $ = makeSelector<A>()
+const $ = makeSelector<State>()
 
 // before
 useSelector((state) => state.a.b)
