@@ -10,7 +10,7 @@ export default defineConfig({
       name: "Select",
       fileName: "select",
     },
-    minify: false,
+    minify: true,
   },
   test: {
     includeSource: ["lib/**/*.{ts,js}"],
