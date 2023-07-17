@@ -11,7 +11,7 @@ import { makeSelector } from 'selector'
 const $ = makeSelector<State>()
 ```
 
-Instead of using lambda function, you can substitute them for `$`
+Instead of using a lambda function, you can substitute it for `$`
 ```ts
 import { makeSelector } from 'selector'
 
