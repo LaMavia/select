@@ -1,8 +1,10 @@
-# Select
+# SelOb
 
 A simple, typesafe selector library.
 
-## Usage
+## Proxy selector
+
+### Usage
 
 When dealing with a state of type `State`, start by defining a new selector `$`
 ```ts
@@ -22,6 +24,20 @@ useSelector((state) => state.a.b)
 
 // after
 useSelector($.a.b)
+```
+
+## Path selector
+
+Uses dot-separated key paths to make selectors. It's less expensive than `makeSelector`.
+
+## Usage
+
+```ts
+
+
+const $ = makePathSelector<typeof state>()
+
+const boneLastUsed = $("users.0.pets.0.toys.0.lastUsed")(state)
 ```
 
 ## Examples

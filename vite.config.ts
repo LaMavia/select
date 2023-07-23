@@ -8,8 +8,8 @@ export default defineConfig({
   build: {
     lib: {
       entry: "./lib/index.ts",
-      name: "Select",
-      fileName: "select",
+      name: "typed-selector",
+      fileName: "typed-selector",
     },
     minify: true,
   },
@@ -17,5 +17,10 @@ export default defineConfig({
     includeSource: ["lib/**/*.{ts,js}"],
     include: [],
   },
-  plugins: [dts()],
+  plugins: [
+    dts({
+      include: ["lib/**/*.ts"],
+      staticImport: true,
+    }),
+  ],
 });
