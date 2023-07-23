@@ -1,4 +1,5 @@
 import { defineConfig } from "vite";
+import dts from "vite-plugin-dts";
 
 export default defineConfig({
   define: {
@@ -6,7 +7,7 @@ export default defineConfig({
   },
   build: {
     lib: {
-      entry: "./lib/main.ts",
+      entry: "./lib/index.ts",
       name: "Select",
       fileName: "select",
     },
@@ -16,4 +17,5 @@ export default defineConfig({
     includeSource: ["lib/**/*.{ts,js}"],
     include: [],
   },
+  plugins: [dts()],
 });
