@@ -2,7 +2,7 @@ import { GenericKey } from "../types/GenericKey";
 import { Selector } from "../types/Selector";
 import { extract } from "./extract";
 
-const dummyTarget = (() => {}) as any;
+const dummyTarget = /* c8 ignore next */ (() => {}) as any;
 
 export const selectProxy = <S>(keys: GenericKey[]): Selector<S> =>
   new Proxy(dummyTarget, {

@@ -1,7 +1,9 @@
+import { selectPath } from "./helpers/selectPath";
 import { selectProxy } from "./helpers/selectProxy";
 import { Selector } from "./types/Selector";
 
 export const makeSelector = <T>(): Selector<T> => selectProxy([]);
+export const makePathSelector = selectPath;
 
 if (import.meta.vitest) {
   const { describe, expect, it } = import.meta.vitest;
@@ -13,12 +15,23 @@ if (import.meta.vitest) {
       b: [1],
     },
   };
-  const $_ = makeSelector<typeof state>();
 
   describe("makeSelector", () => {
-    it("succeeds without keys", () => expect($_(state)).to.deep.equal(state));
-    it("succeeds on 1 key", () => expect($_.a(state)).toEqual(state["a"]));
+    const $ = makeSelector<typeof state>();
+
+    it("succeeds without keys", () => expect($(state)).to.deep.equal(state));
+    it("succeeds on 1 key", () => expect($.a(state)).toEqual(state["a"]));
     it("succeeds on 2 keys", () =>
-      expect($_.b.a(state)).toEqual(state["b"]["a"]));
+      expect($.b.a(state)).toEqual(state["b"]["a"]));
+  });
+
+  describe("makePathSelector", () => {
+    const $ = makePathSelector<typeof state>();
+
+    it("succeeds without keys", () =>
+      expect($("")(state)).to.deep.equal(state));
+    it("succeeds on 1 key", () => expect($("a")(state)).toEqual(state["a"]));
+    it("succeeds on 2 keys", () =>
+      expect($("b.a")(state)).toEqual(state["b"]["a"]));
   });
 }
