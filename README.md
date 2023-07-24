@@ -1,6 +1,6 @@
 # Typed-Selector
 
-A simple, typesafe selector library.
+A simple, type-safe selector library.
 
 Typed-selector exposes 3 types of selectors:
 

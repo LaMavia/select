@@ -1,11 +1,20 @@
 {
   "name": "typed-selector",
-  "description": "A simple, typesafe selector library.",
+  "description": "A simple, type-safe selector library.",
+  "keywords": [
+    "typescript",
+    "functional",
+    "redux",
+    "select",
+    "selector",
+    "object",
+    "styled-components"
+  ],
   "repository": {
     "url": "https://github.com/LaMavia/typed-selector"
   },
   "private": false,
-  "version": "0.2.2",
+  "version": "0.2.3",
   "type": "module",
   "files": [
     "dist"
