@@ -1,8 +1,11 @@
 {
   "name": "typed-selector",
   "description": "A simple, typesafe selector library.",
+  "repository": {
+    "url": "https://github.com/LaMavia/typed-selector"
+  },
   "private": false,
-  "version": "0.2.0",
+  "version": "0.2.1",
   "type": "module",
   "files": [
     "dist"
