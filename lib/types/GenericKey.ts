@@ -1,2 +1,2 @@
-export type GenericKey = string | symbol | number;
-export type TemplateKey = string | number;
+export type GenericKey = string | symbol | number
+export type TemplateKey = string | number

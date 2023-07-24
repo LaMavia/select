@@ -1,37 +1,36 @@
-import { selectPath } from "./helpers/selectPath";
-import { selectProxy } from "./helpers/selectProxy";
-import { Selector } from "./types/Selector";
+import { selectPath } from './selectors/selectPath'
+import { selectProxy } from './selectors/selectProxy'
+import { Selector } from './types/Selector'
 
-export const makeSelector = <T>(): Selector<T> => selectProxy([]);
-export const makePathSelector = selectPath;
+export const makeSelector = <T>(): Selector<T> => selectProxy([])
+export const makePathSelector = selectPath
 
 if (import.meta.vitest) {
-  const { describe, expect, it } = import.meta.vitest;
+  const { describe, expect, it } = import.meta.vitest
 
   const state = {
     a: 1,
     b: {
-      a: "hello",
-      b: [1],
-    },
-  };
+      a: 'hello',
+      b: [1]
+    }
+  }
 
-  describe("makeSelector", () => {
-    const $ = makeSelector<typeof state>();
+  describe('makeSelector', () => {
+    const $ = makeSelector<typeof state>()
 
-    it("succeeds without keys", () => expect($(state)).to.deep.equal(state));
-    it("succeeds on 1 key", () => expect($.a(state)).toEqual(state["a"]));
-    it("succeeds on 2 keys", () =>
-      expect($.b.a(state)).toEqual(state["b"]["a"]));
-  });
+    it('succeeds without keys', () => expect($(state)).to.deep.equal(state))
+    it('succeeds on 1 key', () => expect($.a(state)).toEqual(state['a']))
+    it('succeeds on 2 keys', () =>
+      expect($.b.a(state)).toEqual(state['b']['a']))
+  })
 
-  describe("makePathSelector", () => {
-    const $ = makePathSelector<typeof state>();
+  describe('makePathSelector', () => {
+    const $ = makePathSelector<typeof state>()
 
-    it("succeeds without keys", () =>
-      expect($("")(state)).to.deep.equal(state));
-    it("succeeds on 1 key", () => expect($("a")(state)).toEqual(state["a"]));
-    it("succeeds on 2 keys", () =>
-      expect($("b.a")(state)).toEqual(state["b"]["a"]));
-  });
+    it('succeeds without keys', () => expect($('')(state)).to.deep.equal(state))
+    it('succeeds on 1 key', () => expect($('a')(state)).toEqual(state['a']))
+    it('succeeds on 2 keys', () =>
+      expect($('b.a')(state)).toEqual(state['b']['a']))
+  })
 }

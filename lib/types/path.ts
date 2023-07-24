@@ -1,24 +1,39 @@
-import { TemplateKey } from "./GenericKey";
+import { TemplateKey } from './GenericKey'
 
-type _Paths<T> = T extends object
+type _Paths<T, Separator extends string> = T extends object
   ? Extract<
       {
         [K in keyof T]: K extends TemplateKey
-          ? `${K}` | `${K}.${_Paths<T[K]>}`
-          : never;
+          ? `${K}` | `${K}${Separator}${_Paths<T[K], Separator>}`
+          : never
       }[keyof T],
       string
     >
-  : never;
+  : never
 
-export type Paths<T> = "" | _Paths<T>;
+export type Paths<T, Separator extends string = '.'> = '' | _Paths<T, Separator>
 
-export type TypeOfPath<T, Path extends string> = T extends object
-  ? Path extends `${infer H extends keyof T & TemplateKey}.${infer Tail}`
-    ? TypeOfPath<T[H], Tail>
+type _Split<
+  Str extends string,
+  Separator extends string,
+  Acc extends string[]
+> = Str extends `${infer Head extends string}${Separator}${infer Tail extends
+  string}`
+  ? _Split<Tail, Separator, [...Acc, Head]>
+  : Acc
+
+export type Split<Str extends string, Separator extends string> = _Split<
+  Str,
+  Separator,
+  []
+>
+
+export type TypeOfPath<T, Path extends string[]> = T extends object
+  ? Path extends [infer Head extends keyof T, ...infer Tail extends string[]]
+    ? TypeOfPath<T[Head], Tail>
     : Path extends keyof T
     ? T[Path]
-    : Path extends ""
+    : Path extends ''
     ? T
     : never
-  : T;
+  : T
