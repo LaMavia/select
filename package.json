@@ -5,7 +5,7 @@
     "url": "https://github.com/LaMavia/typed-selector"
   },
   "private": false,
-  "version": "0.2.1",
+  "version": "0.2.2",
   "type": "module",
   "files": [
     "dist"

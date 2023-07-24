@@ -54,7 +54,7 @@ const b$first = b$[0]
 
 Uses dot-separated key paths to make selectors. It's less expensive than `makeSelector` but also less expressive as it doesn't allow for prefixing. The path argument is strongly typed, and supports intellisense. The fragment separator is fixed at `'.'`. To use a custom separator, use `PathSelector` instead.
 
-## Usage
+### Usage
 
 ```ts
 import { makePathSelector } from 'typed-selector'
