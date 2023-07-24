@@ -4,6 +4,7 @@ import { Selector } from './types/Selector'
 
 export const makeSelector = <T>(): Selector<T> => selectProxy([])
 export const makePathSelector = selectPath
+export * from './selectors/PathSelector'
 
 if (import.meta.vitest) {
   const { describe, expect, it } = import.meta.vitest

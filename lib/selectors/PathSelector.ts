@@ -7,19 +7,19 @@ export interface PathSelectorOptions<Separator extends string> {
 
 export interface PathSelectorInterface<
   T extends object,
-  Separator extends string,
-  Fragments extends string[]
+  Fragments extends string[],
+  Separator extends string
 > {
-  options<NewSeparator extends string>(
-    options?: PathSelectorOptions<NewSeparator>
-  ): PathSelector<T, NewSeparator>
+  separator<NewSeparator extends string>(
+    separator: NewSeparator
+  ): PathSelector<T, Fragments, NewSeparator>
 
   then<Path extends Paths<T, Separator>>(
     path: Path
   ): PathSelectorInterface<
     T,
-    Separator,
-    [...Fragments, ...Split<Path, Separator>]
+    [...Fragments, ...Split<Path, Separator>],
+    Separator
   >
 
   select(state: T): TypeOfPath<T, Fragments>
@@ -27,9 +27,9 @@ export interface PathSelectorInterface<
 
 export class PathSelector<
   T extends object,
-  Separator extends string = '.',
-  Fragments extends string[] = []
-> implements PathSelectorInterface<T, Separator, Fragments>
+  Fragments extends string[] = [],
+  Separator extends string = '.'
+> implements PathSelectorInterface<T, Fragments, Separator>
 {
   #fragments: string[]
   #options: PathSelectorOptions<Separator>
@@ -39,16 +39,16 @@ export class PathSelector<
     options: PathSelectorOptions<Separator>
   ) {
     this.#options = options
-    this.#fragments = [...fragments]
+    this.#fragments = fragments
   }
 
-  static empty<T extends object>(): PathSelector<T, '.', []> {
+  static empty<T extends object>(): PathSelector<T, [], '.'> {
     return new PathSelector([], { separator: '.' })
   }
 
   static make<T extends object, Separator extends string = '.'>(
     options: PathSelectorOptions<Separator>
-  ): PathSelector<T, Separator, []> {
+  ): PathSelector<T, [], Separator> {
     return new PathSelector([], options)
   }
 
@@ -56,13 +56,13 @@ export class PathSelector<
     path: Path
   ): PathSelectorInterface<
     T,
-    Separator,
-    [...Fragments, ...Split<Path, Separator>]
+    [...Fragments, ...Split<Path, Separator>],
+    Separator
   > {
     return new PathSelector<
       T,
-      Separator,
-      [...Fragments, ...Split<Path, Separator>]
+      [...Fragments, ...Split<Path, Separator>],
+      Separator
     >(
       [...this.#fragments, ...path.split(this.#options.separator)],
       this.#options
@@ -73,12 +73,12 @@ export class PathSelector<
     return extract(state, this.#fragments)
   }
 
-  options<NewSeparator extends string>(
-    options?: PathSelectorOptions<NewSeparator>
-  ): PathSelector<T, NewSeparator> {
-    return new PathSelector<T, NewSeparator>(
+  separator<NewSeparator extends string>(
+    separator: NewSeparator
+  ): PathSelector<T, Fragments, NewSeparator> {
+    return new PathSelector<T, Fragments, NewSeparator>(
       this.#fragments,
-      Object.assign(this.#options, options)
+      Object.assign(this.#options, { separator })
     )
   }
 }
@@ -111,7 +111,7 @@ if (import.meta.vitest) {
 
     describe('options', () => {
       it('sets separator', () => {
-        const $ = PathSelector.empty<typeof state>().options({ separator: '&' })
+        const $ = PathSelector.empty<typeof state>().separator('&')
         expect($.then('b&b&0').select(state)).toEqual(state.b.b[0])
       })
     })

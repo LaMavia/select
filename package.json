@@ -2,7 +2,7 @@
   "name": "typed-selector",
   "description": "A simple, typesafe selector library.",
   "private": false,
-  "version": "0.1.1",
+  "version": "0.2.0",
   "type": "module",
   "files": [
     "dist"
