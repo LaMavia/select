@@ -18,6 +18,9 @@ export default defineConfig({
     include: [],
     coverage: {
       reporter: ['text', 'json-summary', 'html']
+    },
+    typecheck: {
+      include: ['lib/**/*.{ts,js}']
     }
   },
   plugins: [

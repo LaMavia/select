@@ -33,6 +33,7 @@
     "build": "tsc && vite build",
     "test": "vitest",
     "test:coverage": "vitest run --coverage",
+    "typecheck": "vitest typecheck",
     "prettier": "prettier -w .",
     "prepack": "npm run build",
     "prepublish": "npm run test:coverage"
