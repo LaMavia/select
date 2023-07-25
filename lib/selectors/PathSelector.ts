@@ -1,5 +1,5 @@
 import { extract } from '../helpers/extract'
-import { Paths, Split, TypeOfPath } from '../types/path'
+import { Paths, Split, TypeOfFragments } from '../types/path'
 
 export interface PathSelectorOptions<Separator extends string> {
   separator: Separator
@@ -22,7 +22,7 @@ export interface PathSelectorInterface<
     Separator
   >
 
-  select(state: T): TypeOfPath<T, Fragments>
+  select(state: T): TypeOfFragments<T, Fragments>
 }
 
 export class PathSelector<
@@ -69,7 +69,7 @@ export class PathSelector<
     )
   }
 
-  select(state: T): TypeOfPath<T, Fragments> {
+  select(state: T): TypeOfFragments<T, Fragments> {
     return extract(state, this.#fragments)
   }
 

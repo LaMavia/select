@@ -20,7 +20,9 @@ type _Split<
 > = Str extends `${infer Head extends string}${Separator}${infer Tail extends
   string}`
   ? _Split<Tail, Separator, [...Acc, Head]>
-  : Acc
+  : Str extends ''
+  ? Acc
+  : [...Acc, Str]
 
 export type Split<Str extends string, Separator extends string> = _Split<
   Str,
@@ -28,9 +30,12 @@ export type Split<Str extends string, Separator extends string> = _Split<
   []
 >
 
-export type TypeOfPath<T, Path extends string[]> = T extends object
-  ? Path extends [infer Head extends keyof T, ...infer Tail extends string[]]
-    ? TypeOfPath<T[Head], Tail>
+export type TypeOfFragments<T, Path extends string[]> = T extends object
+  ? Path extends [
+      infer Head extends keyof T & string,
+      ...infer Tail extends string[]
+    ]
+    ? Modifier.Apply<TypeOfFragments<T[Head], Tail>, Head, '?'>
     : Path extends keyof T
     ? T[Path]
     : Path extends ''
