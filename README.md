@@ -2,7 +2,7 @@
 
 A simple, type-safe selector library.
 
-[![cov](https://LaMavia.github.io/typed-selector/badges/coverage.svg)](https://github.com/LaMavia/typed-selector/actions)
+[![cov](https://raw.githubusercontent.com/LaMavia/typed-selector/gh-pages/badges/coverage.svg)](https://github.com/LaMavia/typed-selector/actions)
 
 Typed-selector exposes 3 types of selectors:
 
