@@ -17,7 +17,7 @@ export default defineConfig({
     includeSource: ['lib/**/*.{ts,js}'],
     include: [],
     coverage: {
-      reporter: ['text', 'json', 'html']
+      reporter: ['text', 'json-summary', 'html']
     }
   },
   plugins: [
