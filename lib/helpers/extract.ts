@@ -4,6 +4,7 @@ import { GenericKey } from '../types/GenericKey'
 export const extract = <S extends object, T>(state: S, keys: GenericKey[]): T =>
   keys.reduce((u, k) => (isKeyOf(k, u) ? u[k] : u), state) as unknown as T
 
+// c8 ignore start
 if (import.meta.vitest) {
   const { describe, it, expect } = import.meta.vitest
 
@@ -28,3 +29,4 @@ if (import.meta.vitest) {
     })
   })
 }
+// c8 ignore start

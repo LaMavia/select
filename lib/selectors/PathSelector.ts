@@ -83,6 +83,7 @@ export class PathSelector<
   }
 }
 
+// c8 ignore start
 if (import.meta.vitest) {
   const { describe, it, expect } = import.meta.vitest
 
@@ -117,3 +118,4 @@ if (import.meta.vitest) {
     })
   })
 }
+// c8 ignore start

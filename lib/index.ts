@@ -6,6 +6,7 @@ export const makeSelector = <T>(): Selector<T> => selectProxy([])
 export const makePathSelector = selectPath
 export * from './selectors/PathSelector'
 
+// c8 ignore start
 if (import.meta.vitest) {
   const { describe, expect, it } = import.meta.vitest
 
@@ -35,3 +36,4 @@ if (import.meta.vitest) {
       expect($('b.a')(state)).toEqual(state['b']['a']))
   })
 }
+// c8 ignore stop
