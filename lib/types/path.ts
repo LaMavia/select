@@ -1,4 +1,5 @@
 import { TemplateKey } from './GenericKey'
+import type { Modifier } from './Modifier'
 
 type _Paths<T, Separator extends string> = T extends object
   ? Extract<
@@ -32,13 +33,13 @@ export type Split<Str extends string, Separator extends string> = _Split<
 
 export type TypeOfFragments<T, Path extends string[]> = T extends object
   ? Path extends [
-      infer Head extends keyof T & string,
+      `${infer Head extends TemplateKey & keyof T}`,
       ...infer Tail extends string[]
     ]
     ? Modifier.Apply<TypeOfFragments<T[Head], Tail>, Head, '?'>
-    : Path extends keyof T
-    ? T[Path]
-    : Path extends ''
-    ? T
-    : never
+    : Path extends [`${infer Head extends TemplateKey & keyof T}`]
+    ? Modifier.Apply<T[Head], Head, '?'>
+    : Path extends []
+    ? never
+    : undefined
   : T

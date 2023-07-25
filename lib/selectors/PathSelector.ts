@@ -52,42 +52,35 @@ export class PathSelector<
     return new PathSelector([], options)
   }
 
-  then<Path extends Paths<T, Separator>>(
+  then = <Path extends Paths<T, Separator>>(
     path: Path
   ): PathSelectorInterface<
     T,
     [...Fragments, ...Split<Path, Separator>],
     Separator
-  > {
-    return new PathSelector<
-      T,
-      [...Fragments, ...Split<Path, Separator>],
-      Separator
-    >(
+  > =>
+    new PathSelector<T, [...Fragments, ...Split<Path, Separator>], Separator>(
       [...this.#fragments, ...path.split(this.#options.separator)],
       this.#options
     )
-  }
 
-  select(state: T): TypeOfFragments<T, Fragments> {
-    return extract(state, this.#fragments)
-  }
+  select = (state: T): TypeOfFragments<T, Fragments> =>
+    extract(state, this.#fragments)
 
-  separator<NewSeparator extends string>(
+  separator = <NewSeparator extends string>(
     separator: NewSeparator
-  ): PathSelector<T, Fragments, NewSeparator> {
-    return new PathSelector<T, Fragments, NewSeparator>(
+  ): PathSelector<T, Fragments, NewSeparator> =>
+    new PathSelector<T, Fragments, NewSeparator>(
       this.#fragments,
       Object.assign(this.#options, { separator })
     )
-  }
 }
 
 /* c8 ignore start */
 if (import.meta.vitest) {
-  const { describe, it, expect } = import.meta.vitest
+  const { describe, it, expect, expectTypeOf } = import.meta.vitest
 
-  const state = {
+  const state: { a: number; b?: { a: string; b: number[] } } = {
     a: 1,
     b: {
       a: 'hello',
@@ -98,22 +91,61 @@ if (import.meta.vitest) {
   describe('PathSelector', () => {
     const $ = PathSelector.empty<typeof state>()
 
-    it('succeeds without keys', () =>
-      expect($.select(state)).to.deep.equal(state))
-    it('succeeds on 1 key', () =>
-      expect($.then('a').select(state)).toEqual(state['a']))
-    it('succeeds on 2 keys', () =>
-      expect($.then('b.a').select(state)).toEqual(state['b']['a']))
+    it('succeeds without keys', () => {
+      const $$ = $.select
+
+      expect($$(state)).to.deep.equal(state)
+      expectTypeOf($$).toMatchTypeOf<(_state: typeof state) => typeof state>()
+    })
+    it('succeeds on 1 key', () => {
+      const $$ = $.then('a').select
+
+      expect($$(state)).toEqual(state['a'])
+      expectTypeOf($$).toMatchTypeOf<
+        (_state: typeof state) => (typeof state)['a']
+      >()
+    })
+    it('succeeds on 2 keys', () => {
+      const $$ = $.then('b.a').select
+
+      expect($$(state)).toEqual(state.b?.a)
+      expectTypeOf($$).toMatchTypeOf<
+        (_state: typeof state) => string | undefined
+      >()
+    })
 
     it('works with a custom separator', () => {
       const $ = PathSelector.make<typeof state, '/'>({ separator: '/' })
-      expect($.then('b/b/0').select(state)).toEqual(state.b.b[0])
+      const $$ = $.then('b/b/0').select
+
+      expect($$(state)).toEqual(state.b?.b[0])
+      expectTypeOf($$).toMatchTypeOf<
+        (_state: typeof state) => number | undefined
+      >()
+    })
+
+    it('works with unions', () => {
+      const state: { a: { b: number } | { c: string } } = {
+        a: {
+          b: 1
+        }
+      }
+      const $$ = PathSelector.empty<typeof state>().then('a.c').select
+      expect($$(state)).toEqual(undefined)
+      expectTypeOf($$).toMatchTypeOf<
+        (_state: typeof state) => string | undefined
+      >()
     })
 
     describe('options', () => {
-      it('sets separator', () => {
+      it('separator', () => {
         const $ = PathSelector.empty<typeof state>().separator('&')
-        expect($.then('b&b&0').select(state)).toEqual(state.b.b[0])
+        const $$ = $.then('b&b&0').select
+
+        expect($$(state)).toEqual(state.b?.b[0])
+        expectTypeOf($$).toMatchTypeOf<
+          (_state: typeof state) => number | undefined
+        >()
       })
     })
   })
