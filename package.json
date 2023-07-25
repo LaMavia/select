@@ -13,6 +13,7 @@
   "repository": {
     "url": "https://github.com/LaMavia/typed-selector"
   },
+  "license": "MIT",
   "private": false,
   "version": "0.2.3",
   "type": "module",

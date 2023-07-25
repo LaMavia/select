@@ -2,6 +2,8 @@
 
 A simple, type-safe selector library.
 
+[![cov](https://LaMavia.github.io/typed-selector/badges/coverage.svg)](https://github.com/LaMavia/typed-selector/actions)
+
 Typed-selector exposes 3 types of selectors:
 
 1. proxy selector ([makeSelector](#proxy-selector)) - the most ergonomic, yet the most expensive one;
@@ -100,7 +102,7 @@ Uses immutable classes in combination with string paths. Allows for custom fragm
 1. `empty()` - creates a default PathSelector instance, using `'.'` as the separator. The separator can later be changed with `separator(newSeparator)`. For example:
    ```ts
    PathSelector.empty<typeof state>()
-   // or with a custom selector
+   // or with a custom separator
    PathSelector.empty<typeof state>().separator('/')
    ```
 

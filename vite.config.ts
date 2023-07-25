@@ -15,7 +15,10 @@ export default defineConfig({
   },
   test: {
     includeSource: ['lib/**/*.{ts,js}'],
-    include: []
+    include: [],
+    coverage: {
+      reporter: ['text', 'json', 'html']
+    }
   },
   plugins: [
     dts({
