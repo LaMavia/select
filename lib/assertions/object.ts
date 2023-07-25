@@ -3,7 +3,7 @@ import { GenericKey } from '../types/GenericKey'
 export const isKeyOf = <O>(key: GenericKey, object: O): key is keyof O =>
   typeof object === 'object' && object !== null && key in object
 
-// c8 ignore start
+/* c8 ignore start */
 if (import.meta.vitest) {
   const { describe, it, expect } = import.meta.vitest
 
@@ -34,4 +34,4 @@ if (import.meta.vitest) {
       ))
   })
 }
-// c8 ignore start
+/* c8 ignore stop */
